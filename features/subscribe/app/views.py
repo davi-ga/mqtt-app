@@ -17,7 +17,7 @@ def subscribe_view(request):
             )
             client.start_connection()
             return render(
-                request, "result.html", {"selected_options": selected_options}
+                request, "result.html", context={"selected_options": selected_options}
             )
     else:
         form = SubscribeForm()
