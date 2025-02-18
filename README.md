@@ -79,7 +79,7 @@ Contributions are welcome! Feel free to open issues and pull requests.
 
 Special thanks to my love:
 
-- [@mxtqnt](https://github.com/mxtqnt)
+- [@Ana Carolina](https://github.com/mxtqnt)
 
 ## License
 
