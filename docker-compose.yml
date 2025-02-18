@@ -1,0 +1,64 @@
+networks:
+  mqtt:
+    driver: bridge
+
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - mqtt_db:/var/lib/postgresql/data/
+    env_file:
+      - .env
+    environment:
+      TZ: America/Sao_Paulo
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    healthcheck:
+      test: 
+        [
+          "CMD-SHELL", 
+          "pg_isready -U ${DB_USER} -d ${DB_NAME}"
+        ]
+      interval: 4s
+      timeout: 7s
+      retries: 40
+
+    networks:
+      - mqtt
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - mqtt_redis:/data
+    networks:
+      - mqtt
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  api:
+    build: .
+    entrypoint: ['./entrypoints/api.sh']
+    container_name: mqtt
+    ports:
+      - ${API_PORT}:${API_PORT}
+    networks:
+      - mqtt
+    volumes:
+      - ./core:/app/core
+      - ./features:/app/features
+      - ./media:/app/media
+    env_file:
+      - ./.env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  mqtt_db:
+  mqtt_redis:
