@@ -1,5 +1,9 @@
 from typing import List
 import paho.mqtt.client as mqtt
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+
+channel_layer = get_channel_layer()
 
 class MqttClient:
     def __init__(
@@ -24,10 +28,21 @@ class MqttClient:
         else:
             print(f"Erro ao me conectar! codigo={reason_code}")
 
+  
+
     def on_message(self, client, userdata, message):
         print("Mensagem recebida!")
+        print("Tópico:", message.topic)
         print(client)
         print(message.payload)
+        async_to_sync(channel_layer.group_send)(
+            "mqtt_group",
+            {
+                "type": "mqtt_message",
+                "topic": message.topic,
+                "message": message.payload.decode()
+            }
+        )
 
     def start_connection(self):
         mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, self.__client_name)
