@@ -58,6 +58,7 @@ CSRF_TRUSTED_ORIGINS = ALLOWED_ORIGINS
 INSTALLED_APPS = [
     # WebSocket Server
     "daphne",
+    "channels",
     # Original Django Apps
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -92,7 +93,6 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": glob.glob(os.path.join(BASE_DIR, "**/templates"), recursive=True),
-
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -107,6 +107,14 @@ TEMPLATES = [
 
 ASGI_APPLICATION = "core.asgi.application"
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -164,4 +172,4 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-MQTT_BROKER_HOST= env('MQTT_BROKER_HOST')
+MQTT_BROKER_HOST = env("MQTT_BROKER_HOST")
