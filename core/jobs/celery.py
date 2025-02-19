@@ -25,7 +25,7 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 current_domain = settings.ALLOWED_HOSTS[0] if settings.ALLOWED_HOSTS else "localhost"
 
 app.conf.beat_schedule = {
-    "send-reminder-messages-every-day": {
+    "reminder-messages-send-every-day": {
         "task": "reminder_message_send",
         "schedule": crontab(hour=7, minute=0),
     },
