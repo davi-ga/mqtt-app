@@ -173,3 +173,5 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MQTT_BROKER_HOST = env("MQTT_BROKER_HOST")
+WS_URL = env("WS_URL")
+
