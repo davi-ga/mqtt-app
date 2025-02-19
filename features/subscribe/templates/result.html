@@ -6,7 +6,7 @@
     <script type="text/javascript" charset="utf-8">
         document.addEventListener('DOMContentLoaded', (event) => {
             var selectedOptions = ('{{ selected_options|escapejs }}');
-            var socket = new WebSocket('ws://' + window.location.host + '/ws/mqtt/');
+            var socket = new WebSocket('wss://' + window.location.host + '/ws/mqtt/');
             socket.onmessage = function(e) {
                 var data = JSON.parse(e.data);
                 if (selectedOptions.includes(data.topic)) {
