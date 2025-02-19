@@ -59,6 +59,31 @@ services:
       redis:
         condition: service_healthy
 
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    container_name: mqttworker
+    entrypoint: ['./entrypoints/worker.sh']
+    volumes:
+      - ./core:/app/core
+      - ./features:/app/features
+      - ./media:/app/media
+    networks:
+      - mqtt
+    env_file:
+      - ./.env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep -f worker || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
 volumes:
   mqtt_db:
   mqtt_redis:
