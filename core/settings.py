@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "django_filters",
     # APP
+    "core.jobs",
     "corsheaders",
     # Core Configurations
     "features.subscribe",
@@ -171,6 +172,17 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Celery Configuration Options
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_CACHE_BACKEND = "django-cache"
+CELERY_RESULT_EXTENDED = True
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = "America/Sao_Paulo"
+CELERY_BROKER_URL = env("REDIS_CELERY_URL")
+CELERY_RESULT_BACKEND = env("REDIS_CELERY_URL")
 
 MQTT_BROKER_HOST = env("MQTT_BROKER_HOST")
 WS_URL = env("WS_URL")
