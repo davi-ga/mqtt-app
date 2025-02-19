@@ -10,9 +10,10 @@ def subscribe_view(request):
         if form.is_valid():
             selected_options = form.cleaned_data["select_field"]
             name = form.cleaned_data["name"]
+            user_ip = request.META.get('REMOTE_ADDR')
             client = MqttClient(
                 broker_ip=settings.MQTT_BROKER_HOST,
-                client_name=name,
+                client_name=name+user_ip,
                 topics=selected_options,
             )
             client.start_connection()
