@@ -58,6 +58,8 @@ This project aims to integrate the MQTT protocol into a Django application, allo
     REDIS_CHANNELS_URL=redis://redis:6379/2
 
     MQTT_BROKER_HOST=mosquitto
+    WS_URL=wss://your-websocket-url/ws/mqtt/
+
     ```
 
 ### Using Docker
