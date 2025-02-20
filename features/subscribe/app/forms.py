@@ -3,10 +3,12 @@ from django import forms
 
 class SubscribeForm(forms.Form):
     OPTIONS = [
-        ("illumination", "Illumination"),
-        ("humidity", "Humidity"),
-        ("water_level", "Water Level"),
-        ("sound", "Sound"),
+        ("illumination_1", "Illumination 1"),
+        ("illumination_2", "Illumination 2"),
+        ("illumination_3", "Illumination 3"),
+        ("presence", "Presence"),
+        ("water_level_1", "Water Level 1"),
+        ("water_level_2", "Water Level 2"),
     ]
     name = forms.CharField(label="Nickname")
     select_field = forms.MultipleChoiceField(
