@@ -24,24 +24,24 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 
 current_domain = settings.ALLOWED_HOSTS[0] if settings.ALLOWED_HOSTS else "localhost"
 
-app.conf.beat_schedule = {
-    "illumination_send_every_minute": {
-        "task": "illumination_send",
-        "schedule": crontab(minute='*/1'),
-    },
-    "humidity_send_every_minute": {
-        "task": "humidity_send",
-        "schedule": crontab(minute='*/1'),
-    },
-    "water_level_send_every_minute": {
-        "task": "water_level_send",
-        "schedule": crontab(minute='*/1'),
-    },
-    "sound_send_every_minute": {
-        "task": "sound_send",
-        "schedule": crontab(minute='*/1'),
-    },
-}
+# app.conf.beat_schedule = {
+#     "illumination_send_every_minute": {
+#         "task": "illumination_send",
+#         "schedule": crontab(minute='*/1'),
+#     },
+#     "humidity_send_every_minute": {
+#         "task": "humidity_send",
+#         "schedule": crontab(minute='*/1'),
+#     },
+#     "water_level_send_every_minute": {
+#         "task": "water_level_send",
+#         "schedule": crontab(minute='*/1'),
+#     },
+#     "sound_send_every_minute": {
+#         "task": "sound_send",
+#         "schedule": crontab(minute='*/1'),
+#     },
+# }
 
 app.autodiscover_tasks()
 
