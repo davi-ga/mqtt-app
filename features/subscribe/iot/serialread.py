@@ -25,6 +25,20 @@ def illumination_3_send(value):
     mqtt_class.publish(topic="illumination_3", payload=illumination_3)
     print("illumination_3: " + str(illumination_3))
     
+def humidity_send(value):
+    humidity = value
+    mqtt_class = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, "humidity")
+    mqtt_class.connect(host='mqtt.daviga.dev.br', port=1883)
+    mqtt_class.publish(topic="humidity", payload=humidity)
+    print("humidity: " + str(humidity))
+
+def temperature_send(value):
+    temperature = value
+    mqtt_class = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, "temperature")
+    mqtt_class.connect(host='mqtt.daviga.dev.br', port=1883)
+    mqtt_class.publish(topic="temperature", payload=temperature)
+    print("temperature: " + str(temperature))
+
 def presence_send(value):
     presence = value
     mqtt_class = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, "presence")
@@ -45,7 +59,7 @@ def water_level_2_send(value):
     mqtt_class.connect(host='mqtt.daviga.dev.br', port=1883)
     mqtt_class.publish(topic="water_level_2", payload=water_level_2)
     print("water_level_2: " + str(water_level_2))
-
+    
 def main_func():
     arduino = serial.Serial('COM5', 9600)
     print('Established serial connection to Arduino')
@@ -61,10 +75,13 @@ def main_func():
         illumination_2_send(data[1][1])
         illumination_3_send(data[2][1])
 
-        presence_send(data[3][1])
+        humidity_send(data[3][1])
+        temperature_send(data[4][1])
 
-        water_level_1_send(data[4][1])
-        water_level_2_send(data[5][1])
+        presence_send(data[5][1])
+
+        water_level_1_send(data[6][1])
+        water_level_2_send(data[7][1])
 
     except UnicodeDecodeError:
         print("Erro ao decodificar. Tentando novamente...")

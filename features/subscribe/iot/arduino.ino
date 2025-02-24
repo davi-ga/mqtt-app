@@ -1,3 +1,5 @@
+#include "DHT.h"
+
 const int pinoLDR1 = A5; //Luminosidade
 const int pinoLDR2 = A4; //Luminosidade
 const int pinoLDR3 = A3; //Luminosidade
@@ -8,8 +10,11 @@ const int waterSensorPin1 = A0; //Nível de Água
 const int waterSensorPin2 = A1; //Nível de Água
 int lowThreshold = 300;   
 int mediumThreshold = 600; 
-int highThreshold = 900;  
+int highThreshold = 900; 
 
+#define DHTPIN 7
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
 
 void setup(){
   Serial.begin(9600);
@@ -19,12 +24,18 @@ void setup(){
   pinMode(pinopir, INPUT);
   pinMode(waterSensorPin1, INPUT);
   pinMode(waterSensorPin2, INPUT);
+  dht.begin();
 }
 
 void loop(){ 
+  
   Serial.print(String("[('Luminosidade 1','") + analogRead(pinoLDR1) + "'), ");
   Serial.print(String("('Luminosidade 2','") + analogRead(pinoLDR2) + "'), ");
   Serial.print(String("('Luminosidade 3','") + analogRead(pinoLDR3) + "'), ");
+
+  Serial.print(String("('Humidade','") + dht.readHumidity() + "'), ");
+  Serial.print(String("('Temperatura','") + dht.readTemperature() + "'), ");
+
 
   Serial.print(String("('Presenca', ") + (digitalRead(pinopir) ? "'Sim'), " : "'Nao'), "));
 
