@@ -65,7 +65,7 @@ def main_func():
     print('Established serial connection to Arduino')
     
     try:
-        arduino_data = arduino.readline(200) 
+        arduino_data = arduino.readline(250) 
         decoded_values = arduino_data.decode("utf-8")
         print(f'Collected readings from Arduino: {decoded_values}')
         data = ast.literal_eval(decoded_values)
@@ -83,6 +83,19 @@ def main_func():
         water_level_1_send(data[6][1])
         water_level_2_send(data[7][1])
 
+        print("illumination_1:", data[0][1])
+        print("illumination_2:", data[1][1])
+        print("illumination_3:", data[2][1])
+
+        print("humidity:", data[3][1])
+        print("temperature:", data[4][1])
+
+        print("presence:", data[5][1])
+
+        print("water_level_1:", data[6][1])
+        print("water_level_2:", data[7][1])
+                
+
     except UnicodeDecodeError:
         print("Erro ao decodificar. Tentando novamente...")
         return  
@@ -95,7 +108,7 @@ list_values = []
 data = []
 
 print('Program started')
-schedule.every(5).seconds.do(main_func)
+schedule.every(30).seconds.do(main_func)
 
 while True:
     schedule.run_pending()
