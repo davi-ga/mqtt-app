@@ -1,6 +1,7 @@
 # filepath: /home/daviga/projects/mqtt-app/mqtt_app/consumers.py
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
+from datetime import datetime
 
 class MqttConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -16,7 +17,9 @@ class MqttConsumer(AsyncWebsocketConsumer):
     async def mqtt_message(self, event):
         message = event['message']
         topic = event['topic']
+        timestamp = datetime.now().isoformat()
         await self.send(text_data=json.dumps({
             "topic": topic,
-            'message': message
+            'message': message,
+            "timestamp": timestamp
         }))
