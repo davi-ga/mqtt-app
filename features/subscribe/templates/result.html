@@ -14,7 +14,7 @@
                 var timestampKey = data.timestamp + ':' + data.topic+ ':' + data.message
 
                 if (selectedOptions.includes(data.topic) && !timestampMessage.has(timestampKey)) {
-                    receivedMessages.add(timestampKey);
+                    timestampMessage.add(timestampKey);
                     var messageDiv = document.createElement('div');
                     messageDiv.textContent = 'Topic: ' + data.topic + ' - Message: ' + data.message;
                     document.body.appendChild(messageDiv);
