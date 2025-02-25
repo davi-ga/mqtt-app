@@ -36,7 +36,7 @@ SECRET_KEY = "django-insecure-m!g#&$v@&4_6(m^2+cx$x(g(%(w$r0t_6i2psed3m7r^6)bswj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["mqtt.daviga.dev.br", "localhost"]
+ALLOWED_HOSTS = ["mqtt.daviga.dev.br", "localhost","82.25.76.161"]
 
 ALLOWED_ORIGINS = [
     "https://mqtt.daviga.dev.br",
