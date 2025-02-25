@@ -11,7 +11,7 @@
 
             socket.onmessage = function(e) {
                 var data = JSON.parse(e.data);
-                var timestampKey = data.timestamp
+                var timestampKey = data.timestamp + ':' + data.topic+ ':' + data.message
 
                 if (selectedOptions.includes(data.topic) && !timestampMessage.has(timestampKey)) {
                     receivedMessages.add(timestampKey);
