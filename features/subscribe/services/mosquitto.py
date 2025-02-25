@@ -7,6 +7,7 @@ channel_layer = get_channel_layer()
 
 connected_clients = set()
 
+
 class MqttClient:
     def __init__(
         self,
@@ -30,25 +31,23 @@ class MqttClient:
         else:
             print(f"Erro ao me conectar! codigo={reason_code}")
 
-  
-
     def on_message(self, client, userdata, message):
         print("Mensagem recebida!")
-        print("Tópico:", message.topic)
+        print("Tópico:", message.topic, "message", message.payload.decode())
         async_to_sync(channel_layer.group_send)(
             "mqtt_group",
             {
                 "type": "mqtt_message",
                 "topic": message.topic,
-                "message": message.payload.decode()
-            }
+                "message": message.payload.decode(),
+            },
         )
 
     def start_connection(self):
         if self.__client_name in connected_clients:
             print(f"Cliente {self.__client_name} já está conectado.")
             return False
-        
+
         mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, self.__client_name)
 
         mqtt_client.on_connect = self.on_connect
@@ -57,9 +56,9 @@ class MqttClient:
         mqtt_client.connect(host=self.__broker_ip, keepalive=self.__keepalive)
         self.__mqtt_client = mqtt_client
         self.__mqtt_client.loop_start()
-        
+
         connected_clients.add(self.__client_name)
-        
+
         return True
 
     def end_connection(self):
