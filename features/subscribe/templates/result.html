@@ -7,14 +7,14 @@
         document.addEventListener('DOMContentLoaded', (event) => {
             var selectedOptions = ('{{ selected_options|escapejs }}');
             var socket = new WebSocket('{{ ws_url|escapejs }}');
-            var receivedMessages = new Set();
+            var timestampMessage = new Set();
 
             socket.onmessage = function(e) {
                 var data = JSON.parse(e.data);
-                var messageKey = data.topic + ':' + data.message;
+                var timestampKey = data.timestamp
 
-                if (selectedOptions.includes(data.topic) && !receivedMessages.has(messageKey)) {
-                    receivedMessages.add(messageKey);
+                if (selectedOptions.includes(data.topic) && !timestampMessage.has(timestampKey)) {
+                    receivedMessages.add(timestampKey);
                     var messageDiv = document.createElement('div');
                     messageDiv.textContent = 'Topic: ' + data.topic + ' - Message: ' + data.message;
                     document.body.appendChild(messageDiv);
